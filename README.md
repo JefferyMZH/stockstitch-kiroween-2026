@@ -20,7 +20,7 @@ Open the URL printed by Vite. To produce a static build, run `npm run build`.
 3. Search or filter products and select a row to review findings and suggested fixes.
 4. Export findings as CSV. Imported files are processed in the browser and are not uploaded by the application.
 
-CSV parsing supports quoted commas, quoted newlines and escaped quotes. It rejects malformed input and rows with extra fields. Reports prefix spreadsheet formula-like values to reduce formula injection risk. Duplicate SKU detection ignores case and surrounding whitespace. Findings are rule-based suggestions; review them before changing the original data.
+CSV parsing supports quoted commas, quoted newlines and escaped quotes. It rejects malformed input and rows with extra fields. Reports prefix spreadsheet formula-like values to reduce formula injection risk. Duplicate SKU detection ignores case and surrounding whitespace. Consistency checks compare rows by normalized product name (Unicode NFKC, trimmed, whitespace collapsed, case-insensitive). Rows with the same name but different non-empty prices are flagged "Inconsistent price" (high when the gap is at least 50% of the higher price, otherwise medium). Rows with the same name but different non-empty SKUs are flagged "Same name, different SKU" (medium). Empty names, prices and SKUs are ignored, checks are skipped when the field is unmapped, and the source values are never changed. The analysis panel lists the related source rows, and the CSV export includes them. Findings are rule-based suggestions; review them before changing the original data.
 
 ## Current limitations
 
@@ -31,7 +31,7 @@ CSV parsing supports quoted commas, quoted newlines and escaped quotes. It rejec
 
 ## Project status
 
-This is a work in progress for Kiroween 2026. The competition requires actual Kiro usage and evidence in `.kiro/`; that work has not yet been recorded in this repository.
+This is a work in progress for Kiroween 2026. The consistency detection feature was built with Kiro; its requirements, design and status are in `.kiro/specs/consistency-detection/` and `.kiro/steering/`. This change has not been tested or built: verification was explicitly skipped, so review it before relying on it.
 
 ## License
 
